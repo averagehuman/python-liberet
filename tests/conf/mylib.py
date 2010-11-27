@@ -1,0 +1,3 @@
+
+SETTING2 = 'overridden'
+

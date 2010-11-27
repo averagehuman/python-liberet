@@ -1,0 +1,15 @@
+#!/bin/sh
+
+#dev=`grep "__version__" liberet.py | sed "s/__version__ = //g" | sed "s/['.0-9]//g"`
+
+line=`grep "__version__" liberet.py | sed "s/__version__ = //g"`
+stripped_line=`echo $line |sed "s/dev//g"`
+
+if [ $line = $stripped_line ]; then
+    # not dev
+    python setup.py sdist --formats=gztar,zip register upload
+else
+    # dev
+    python setup.py sdist --formats=gztar,zip
+fi
+

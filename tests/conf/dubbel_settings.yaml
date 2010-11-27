@@ -1,0 +1,12 @@
+
+[sphinx]
+
+    rst_suffix: rst
+    extensions:
+        - doctest
+        - autodoc
+
+[jekyll]
+
+    copyright: John J. Jaffa
+

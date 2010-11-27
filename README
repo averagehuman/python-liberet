@@ -1,0 +1,54 @@
+
+liberet.py - README
+===================
+
+A generic configuration mechanism for Python applications.
+
+Usage
+-----
+
+1. Register your library or application with ``liberet``.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For example, if you have a library ``mylib`` and if that library's configurable options
+are in a submodule called ``mylib.conf.global_settings``::
+
+    >>> import liberet
+    >>> liberet.register('mylib.conf.global_settings', 'mylib')
+
+(Defaults may be a dict or anything with a __dict__ attribute, eg. a module or class,
+and can be given either in "dotted string" format, or as an object instance).
+
+2. The ``LIBERET_SETTINGS_DIRECTORY`` variable
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now you expect users of your library to have a settings directory within which
+they define the overrides for any ``mylib`` global options. The settings directory
+is defined by setting a ``LIBERET_SETTINGS_DIRECTORY`` environment variable.
+The user-defined overrides themselves must be in a module ``mylib.py``
+within the settings directory, and, since this module must be importable as
+``settings.mylib``, the settings directory must also be be a Python package - ie. it
+must contain an ``__init__.py__`` file. (The PYTHONPATH is updated on first access of
+any setting to include the "project path", ie. the directory within which the settings
+directory is located. But note that ``LIBERET_SETTINGS_DIRECTORY`` need not always be
+a Python package. See next.
+
+3. Override file formats
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``liberet.register`` function takes an optional ``format`` argument. By default,
+this is "py" and so, as above, user settings are expected to be in a python module.
+Other values for ``format` are:
+
++ ini
++ dubbel
+
+If ``format="ini"``, then Python's ConfigParser will be used to "import" the user
+settings, and if ``format="dubbel"`` then we use a ConfigParser/YAML hybrid
+parser called ``Dubbel``.
+
+More
+----
+
+See the doctests.
+
